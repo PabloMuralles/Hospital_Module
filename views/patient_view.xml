@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hospital_patient_tree" model="ir.ui.view">
+        <field name="name">hospital.patient.tree</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Patient Name"/>
+                <field name="ref"/>
+                <field name="age"/>
+                <field name="gender"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--this is to create the form view to the module-->
+    <!--    sheet tag it is to put in the view like the form are a sheet of paper-->
+    <!--    the group it is to put the labels of the fields in the view-->
+    <!--    and if we have a groups of groups it's to  divide in half the view-->
+    <!--    this part gave a problem with the name what i do was uninstall and then put the view and install again-->
+    <!--    we need to put the active field because if we don't put it doesn't appear in the bottom action in the view-->
+    <record id="view_hospital_patient_form" model="ir.ui.view">
+        <field name="name">hospital.patient.form</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="date_of_birth"/>
+                            <field name="age"/>
+                        </group>
+                        <group>
+                            <field name="ref"/>
+                            <field name="gender"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <!--chatter it's for the message above of the form in the view form-->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!--    this is for search at the same time in multiple filds for example in the case of the view search in field name and if isn't anything there then search-->
+    <!--    in the field ref and if we want to put more than to it's like the code below-->
+    <!--    filter_domain="['|', '|', ('code', 'ilike', self), ('name', 'ilike', self), ('ref', 'ilike', self)]"/>-->
+    <!--    this the code below is the structure of the filter for the search viwe is important to remeber that the domain put the field of we want a filter and the key of the model-->
+    <!--    <filter name="filter_female" string="female" domain="[('gender', '=', 'female')]"/>-->
+    <!--    if we put the code like below-->
+    <!--    <filter name="filter_male" string="Male" domain="[('gender', '=', 'male')]"/>-->
+    <!--    <filter name="filter_female" string="Female" domain="[('gender', '=', 'female')]"/>-->
+    <!--    this means that the fiter will be or for example male or female but if we want to be male and female need to be like the code below-->
+    <!--    <filter name="filter_male" string="Male" domain="[('gender', '=', 'male')]"/>-->
+    <!--    <separator/>-->
+    <!--    <filter name="filter_female" string="Female" domain="[('gender', '=', 'female')]"/>-->
+    <!--    we can't use a computed field in the search view because will not be stored in the database-->
+    <record id="view_hospital_patient_search" model="ir.ui.view">
+        <field name="name">hospital.patient.search</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Patient Name"
+                       filter_domain="['|', ('name', 'ilike', self), ('ref', 'ilike', self)]"/>
+                <field name="ref"/>
+                <field name="age"/>
+                <field name="gender"/>
+                <filter name="filter_male" string="Male" domain="[('gender', '=', 'male')]"/>
+                <filter name="filter_female" string="Female" domain="[('gender', '=', 'female')]"/>
+                <separator/>
+<!--                <filter name="filter_kids" string="Kids" domain="[('age', '&lt;=', '5')]"/>-->
+<!--                <separator/>-->
+                <filter name="filter_archive" string="Archived" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Gender" name="group_by_gender" context="{'group_by': 'gender'}"/>
+                </group>
+                <!--this is to put in the module a search panel so help to have a menu in the left of the search view, it's posible to add meny fields that you want-->
+                <searchpanel>
+                    <field name="gender" string="Gender" select="multi" icon="fa-users" enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <!--    this it the action to for the menu patient-->
+    <!--    to put a default filter in the search view  que have to added in the context of the action so the syntax it's like this-->
+    <!--    search_default_filter_male': 1 the key is search_default then the filter of the name created on the search view-->
+    <!--    if we want to put a group by filter it's the same as the filter and if we want to put different filters or groups by we have to put a "," and then the other-->
+    <record id="action_hospital_patient" model="ir.actions.act_window">
+        <field name="name">Patients</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hospital.patient</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_filter_male': 1, 'search_default_group_by_gender': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first patient!
+            </p>
+        </field>
+    </record>
+
+    <!--    this menu item need to be here because if we put it in the menu.xml will make an error because the action -->
+    <!--    have not benn created so first the action need to be created and then de menu-->
+    <menuitem id="menu_patient"
+              name="Patients"
+              action="action_hospital_patient"
+              parent="menu_patient_master"
+              sequence="0"
+    />
+
+</odoo>

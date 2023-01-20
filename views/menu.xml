@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    if a menu don't an action this will not appear-->
+    <!--    if the manu have sub menus the last one of the children need to have action only-->
+    <menuitem id="menu_hospital_root"
+              name="Hospital"
+              web_icon="om_hospital,static/description/hospital.png"
+              sequence="0"
+    />
+
+    <!-- the name that appears in the menu in oddo like sale, discussion, etc-->
+    <!-- the sequence are the order to appear in the menu-->
+    <menuitem id="menu_patient_master"
+              name="Patient Details"
+              parent="menu_hospital_root"
+              sequence="0"
+    />
+
+    <menuitem id="menu_appointment_master"
+              name="Appointments"
+              parent="menu_hospital_root"
+              sequence="20"
+    />
+
+
+</odoo>
