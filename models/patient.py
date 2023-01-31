@@ -8,6 +8,7 @@ class HospitalPatient(models.Model):
     # then we have to add the dependencies in the manifest in views, we have to se in what module it's define the
     # class that we are inherit to put this module in the dependence
     _description = "HospitalPatient"
+    # _rec_name = "name" in this case we don't need a rec name because the modele have a field name so odoo automatically use this
 
     # how to create the field in the database of this table patient
     name = fields.Char(string='Name', tracking=True) #the tracking it's to show the changes of the filed in the chatter section, we need to have activeted the chatter

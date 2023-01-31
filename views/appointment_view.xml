@@ -13,22 +13,56 @@
         </field>
     </record>
 
+    <!-- if a field come without a label in the view we need to put it inside a group tag-->
+    <!-- to desperate the bottoms edit, crete or duplicate, delete in the view in tree or form view you have to put like this-->
+    <!-- edit="0", create="0", delete="0" in the corresponding tag-->
     <record id="view_hospital_appointment_form" model="ir.ui.view">
         <field name="name">hospital.appointment.form</field>
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
             <form>
+                <!-- this fild in the header tag help us to show a statusbar of the appointment -->
+                <header>
+                    <field name="state" widget="statusbar" nolabel="1" options="{'clickable': '1'}"
+                            statusbar_visible="draft,in_consultation,done"/>
+                </header>
                 <sheet>
+                    <!-- this is for put the start of priority in the form view the div is to separate the start and-->
+                    <!-- the h1 it is to make bigger the start in the view -->
+                    <div class="oe_title">
+                        <h1>
+                            <field name="priority" widget="priority" class="mr-3"/>
+                        </h1>
+                    </div>
                     <group>
                         <group>
                             <field name="patient_id"/>
+                            <field name="ref"/>
                             <field name="gender"/>
                             <field name="booking_date"/>
                         </group>
                         <group>
                             <field name="appointment_time"/>
+                            <!--how to define a buttons in the view-->
+                            <!--for this button we need to have a function with the same name of the button name-->
+                            <button name="action_test" string="Object Button" type="object" class="oe_highlight"/>
+                            <!--this button search for a window action in the views, but we need the external id of the action-->
+                            <!--for the external id we go to settings and technical and then window actions-->
+                            <button name="%(om_hospital.action_hospital_patient)d" string="Action Button" type="action" class="oe_highlight"/>
                         </group>
                     </group>
+                    <!--the notebook is like submenus in the form view that we can add more information-->
+                    <!-- the name of the page help if someone inherit this form-->
+                    <!-- we can add multiple notebooks like we want-->
+                    <notebook>
+                        <page string="Prescription" name="Prescription">
+                            <field name="prescription" placeholder="Enter your Prescription"/>
+                        </page>
+
+                        <page string="Pharmacy" name="pharmacy">
+
+                        </page>
+                    </notebook>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" groups="base.group_user"/>
