@@ -17,8 +17,8 @@ class HospitalAppointment(models.Model):
     appointment_time = fields.Datetime(string="Appointment Time", default=fields.Datetime.now())
     booking_date = fields.Date(string="Booking Date", default=fields.Date.today())  # in de video used .context_today
     # but this function gave me a problem, so I use today
-    ref = fields.Char(string='Reference')  # if I use readonly to this will not be stored on the database and not will
-    # show in the form view when we put save
+    ref = fields.Char(string='Reference', help="References of the patient record")  # if I use readonly to this will
+    # not be stored on the database and not will show in the form view when we put save
     prescription = fields.Html(string="Prescription")  # this is how to define an HTML field, this field will be like
     # a textbox to put text this field it's for the priority start for an appointment this will appear in the form view
     #  to put the level of the priority of this appointment
@@ -33,6 +33,7 @@ class HospitalAppointment(models.Model):
         ('in_consultation', 'In Consultation'),
         ('done', 'Done'),
         ('cancel', 'Cancelled')], default='draft', string="Status", required=True)
+    doctor_id = fields.Many2one(comodel_name='res.users', string='Doctor')
 
     # define an onchange function, this will help when we select the patient automatically set the references that have
     # the patient
@@ -43,3 +44,11 @@ class HospitalAppointment(models.Model):
     # this function it's for the button type object we need a function with the same name of the button
     def action_test(self):
         print("Button Clicked!")
+        # show a rainbow with a message
+        return {
+            'effect': {
+                'fadeout': 'slow',
+                'message': 'Click Successfully',
+                'type': 'rainbow_man',
+            }
+        }
