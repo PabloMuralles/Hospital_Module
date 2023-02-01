@@ -32,7 +32,7 @@ class HospitalAppointment(models.Model):
         ('draft', 'Draft'),
         ('in_consultation', 'In Consultation'),
         ('done', 'Done'),
-        ('cancel', 'Cancelled')], default='draft', string="Status", required=True)
+        ('cancel', 'Cancelled')], default='draft', string="Status", required=True, tracking=True)
     doctor_id = fields.Many2one(comodel_name='res.users', string='Doctor')
 
     # define an onchange function, this will help when we select the patient automatically set the references that have
@@ -52,3 +52,19 @@ class HospitalAppointment(models.Model):
                 'type': 'rainbow_man',
             }
         }
+
+    def action_in_consultation(self):
+        for record in self:
+            record.state = 'in_consultation'
+
+    def action_done(self):
+        for record in self:
+            record.state = 'done'
+
+    def action_cancel(self):
+        for record in self:
+            record.state = 'cancel'
+
+    def action_draft(self):
+        for record in self:
+            record.state = 'draft'

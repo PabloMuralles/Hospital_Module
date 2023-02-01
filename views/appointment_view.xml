@@ -7,7 +7,8 @@
         <field name="arch" type="xml">
             <!-- this decoration are for all the fields fo the tree view-->
             <tree decoration-success="state == 'done'" decoration-danger="state == 'cancel'"
-                  decoration-info="state == 'draft'" decoration-warning="state == 'in_consultation'">
+                  decoration-info="state == 'draft'" decoration-warning="state == 'in_consultation'" sample="1"
+                  multi_edit="1">
                 <field name="patient_id"/>
                 <field name="ref" optional="hide"/>
                 <!-- widget="many2one_avatar" is only for the image of the user and widget="many2one_avatar_user"-->
@@ -43,7 +44,15 @@
             <form>
                 <!-- this fild in the header tag help us to show a statusbar of the appointment -->
                 <header>
-                    <field name="state" widget="statusbar" nolabel="1" options="{'clickable': '1'}"
+                    <button name="action_in_consultation" string="In Consultation" class="oe_highlight"
+                            type="object" states="draft"/>
+                    <button name="action_done" string="Mark As Done" class="oe_highlight"
+                            type="object" states="in_consultation"/>
+                    <button name="action_cancel" string="Cancel" type="object" states="draft,in_consultation"/>
+                    <button name="action_draft" string="Reset To Draft" class="oe_highlight"
+                            type="object" states="cancel"/>
+                    <!--options="{'clickable': '1'}"-->
+                    <field name="state" widget="statusbar" nolabel="1"
                            statusbar_visible="draft,in_consultation,done"/>
                 </header>
                 <sheet>
@@ -61,7 +70,7 @@
                             <field name="gender"/>
                             <field name="doctor_id" widget="many2one_avatar"/>
                             <!-- we can put help for the end user at python level or xml level-->
-                            <field name="booking_date" help="Date of booking"/>
+                            <field name="booking_date" help="Date of booking" default_focus="1"/>
                         </group>
                         <group>
                             <field name="appointment_time"/>
@@ -84,11 +93,10 @@
                     <!-- we can add multiple notebooks like we want-->
                     <notebook>
                         <page string="Prescription" name="Prescription">
-                            <field name="prescription" placeholder="Enter your Prescription"/>
+                            <field name="prescription" placeholder="Enter your Prescription"
+                                   options="{'collaborative': true, 'resizable': true}"/>
                         </page>
-
                         <page string="Pharmacy" name="pharmacy">
-
                         </page>
                     </notebook>
                 </sheet>
