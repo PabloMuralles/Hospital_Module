@@ -34,6 +34,9 @@ class HospitalAppointment(models.Model):
         ('done', 'Done'),
         ('cancel', 'Cancelled')], default='draft', string="Status", required=True, tracking=True)
     doctor_id = fields.Many2one(comodel_name='res.users', string='Doctor')
+    # one2many field always need to finish in ids because have multiple records
+    # in this field I can't put comodel_name only this way
+    pharmacy_line_ids = fields.One2many('appointment.pharmacy.lines', 'appointment_id', string='Pharmacy Line')
 
     # define an onchange function, this will help when we select the patient automatically set the references that have
     # the patient

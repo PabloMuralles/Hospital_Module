@@ -45,11 +45,15 @@
                 <!-- this fild in the header tag help us to show a statusbar of the appointment -->
                 <header>
                     <button name="action_in_consultation" string="In Consultation" class="oe_highlight"
+                            data-hotkey="i"
                             type="object" states="draft"/>
                     <button name="action_done" string="Mark As Done" class="oe_highlight"
+                            data-hotkey="v"
                             type="object" states="in_consultation"/>
-                    <button name="action_cancel" string="Cancel" type="object" states="draft,in_consultation"/>
+                    <button name="action_cancel" string="Cancel" type="object" states="draft,in_consultation"
+                            data-hotkey="c"/>
                     <button name="action_draft" string="Reset To Draft" class="oe_highlight"
+                            data-hotkey="n"
                             type="object" states="cancel"/>
                     <!--options="{'clickable': '1'}"-->
                     <field name="state" widget="statusbar" nolabel="1"
@@ -97,6 +101,26 @@
                                    options="{'collaborative': true, 'resizable': true}"/>
                         </page>
                         <page string="Pharmacy" name="pharmacy">
+                            <field name="pharmacy_line_ids">
+                                <!-- we need a tree view to see the products in the view the list-->
+                                <!-- the editable is for to put the products in the te tree view with this we-->
+                                <!-- don't need the form view-->
+                                <tree editable="button">
+                                    <field name="product_id"/>
+                                    <field name="price_unit"/>
+                                    <field name="qty"/>
+                                </tree>
+                                <!-- this view is to make a form to choose the product a new view above the current-->
+                                <!-- view but this it-s not the best so it-s better to put editable the tree-->
+                                <!--view so this it's not needed-->
+                                <form>
+                                    <group>
+                                        <field name="product_id"/>
+                                        <field name="price_unit"/>
+                                        <field name="qty"/>
+                                    </group>
+                                </form>
+                            </field>
                         </page>
                     </notebook>
                 </sheet>
