@@ -26,6 +26,7 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <field name="image" widget="image" class="oe_avatar"/>
                     <group>
                         <group>
                             <field name="name"/>
@@ -35,6 +36,8 @@
                         <group>
                             <field name="ref"/>
                             <field name="gender"/>
+                            <!-- this widget it's for look better to the end user-->
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                             <field name="active" invisible="1"/>
                         </group>
                     </group>
@@ -75,8 +78,8 @@
                 <filter name="filter_male" string="Male" domain="[('gender', '=', 'male')]"/>
                 <filter name="filter_female" string="Female" domain="[('gender', '=', 'female')]"/>
                 <separator/>
-<!--                <filter name="filter_kids" string="Kids" domain="[('age', '&lt;=', '5')]"/>-->
-<!--                <separator/>-->
+                <!--                <filter name="filter_kids" string="Kids" domain="[('age', '&lt;=', '5')]"/>-->
+                <!--                <separator/>-->
                 <filter name="filter_archive" string="Archived" domain="[('active', '=', False)]"/>
                 <group expand="0" string="Group By">
                     <filter string="Gender" name="group_by_gender" context="{'group_by': 'gender'}"/>

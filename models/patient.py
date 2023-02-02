@@ -21,6 +21,11 @@ class HospitalPatient(models.Model):
     gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string='Gender', tracking=True, default='female')
     active = fields.Boolean(string="Active", default=True)  # this field is to put the option archive or unarchived
     # in odoo view
+    image = fields.Image(string="Image")
+    # many2many field we have to end with ids because we can save multiple values in this field
+    # for this field don't save anything in this model this will create a separate table in de database
+    # in this case create a table named hospital_patient_patient_tag_rel
+    tag_ids = fields.Many2many(comodel_name="patient.tag", string="Tags")
 
     #how to define a function in a model
     #this funtion it's for a computed fild, a computed fild will not stored in the databese

@@ -77,17 +77,22 @@
                             <field name="booking_date" help="Date of booking" default_focus="1"/>
                         </group>
                         <group>
+                            <!-- with this group only will se this in developer mode this because when we activate-->
+                            <!-- the developer mode put the user in this group-->
+                            <field name="hide_sales_price" groups="base.group_no_one"/>
                             <field name="appointment_time"/>
                             <!--how to define a buttons in the view-->
                             <!--for this button we need to have a function with the same name of the button name-->
                             <button name="action_test" string="Object Button"
                                     confirm="Are you sure to execute python code?"
+                                    groups="base.group_no_one"
                                     help="A message will printed in the log"
                                     type="object" class="oe_highlight"/>
                             <!--this button search for a window action in the views, but we need the external id of the action-->
                             <!--for the external id we go to settings and technical and then window actions-->
                             <button name="%(om_hospital.action_hospital_patient)d" string="Action Button"
                                     help="On clicking this you will be redirected to patient records"
+                                    groups="base.group_no_one"
                                     confirm="Are you sure to open the patient action?"
                                     type="action" class="oe_highlight"/>
                         </group>
@@ -105,8 +110,11 @@
                                 <!-- we need a tree view to see the products in the view the list-->
                                 <!-- the editable is for to put the products in the te tree view with this we-->
                                 <!-- don't need the form view-->
-                                <tree editable="button">
-                                    <field name="product_id"/>
+                                <!-- editable="botton" add a line at the botton  -->
+                                <!-- editable="top" add a line at the top  -->
+                                <tree editable="botton">
+                                    <field name="product_id"
+                                           attrs="{'column_invisible':[('parent.hide_sales_price', '=', True)]}"/>
                                     <field name="price_unit"/>
                                     <field name="qty"/>
                                 </tree>
@@ -116,7 +124,8 @@
                                 <form>
                                     <group>
                                         <field name="product_id"/>
-                                        <field name="price_unit"/>
+                                        <field name="price_unit"
+                                               attrs="{'column_invisible':[('parent.hide_sales_price', '=', True)]}"/>
                                         <field name="qty"/>
                                     </group>
                                 </form>
