@@ -46,8 +46,8 @@ class HospitalPatient(models.Model):
     # so we can access and make changes if it's necessary
     @api.model
     def create(self, vals_list):
-        print("Hola---", vals_list)
-        vals_list['ref'] = 'OMTEST'
+        # the code of the sequence it's to identify the sequence of the model and bring the information
+        vals_list['ref'] =  self.env['ir.sequence'].next_by_code('hospital.patient')
         return super(HospitalPatient, self).create(vals_list)
 
 

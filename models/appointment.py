@@ -13,7 +13,7 @@ class HospitalAppointment(models.Model):
     # the other thing it's that comodel_name it's to specify the model that make the references
     gender = fields.Selection(related="patient_id.gender")  # this is for
     # bring the gender of the patient based on the filed patient_id, so we can access to all the fild of the patient
-    # it the "." by default this field will be read only if we want to make changes we have to add readonly=Falsejj
+    # it the "." by default this field will be read only if we want to make changes we have to add readonly=False
     appointment_time = fields.Datetime(string="Appointment Time", default=fields.Datetime.now())
     booking_date = fields.Date(string="Booking Date", default=fields.Date.today())  # in de video used .context_today
     # but this function gave me a problem, so I use today
