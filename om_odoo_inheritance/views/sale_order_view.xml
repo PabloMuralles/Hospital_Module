@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+
+        <!-- the name of the view depend on what we want -->
+        <!-- the name of the view the same depend on what we want  -->
+        <!-- the model it's refers to the model that we want to inherit-->
+        <!-- the ref it's to the id of the view what we want to inherit-->
+        <!-- in the case that the field that we want to use the reference is inherited too we need to search-->
+        <!-- the view that are inherit change it in ref and if use and other module put this module in the depends -->
+        <!-- in the manifest file-->
+        <!-- -->
+        <record id="view_order_form_inherit" model="ir.ui.view">
+            <field name="name">sale.order.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <!-- with this we specify were put the new fill in the existing view-->
+                <!-- we have to search in the developer mode the name of the field of the view-->
+                <!-- then we have to specify the position of the new fild-->
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="confirm_user_id"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
