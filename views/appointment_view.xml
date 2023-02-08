@@ -5,8 +5,8 @@
         <field name="name">hospital.appointment.activity</field>
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
-           <activity string="Appointments">
-               <!-- in te video says that all the fields that we use in the template we need to declare outside -->
+            <activity string="Appointments">
+                <!-- in te video says that all the fields that we use in the template we need to declare outside -->
                 <field name="patient_id"/>
                 <field name="ref"/>
                 <templates>
@@ -72,6 +72,10 @@
                     <button name="action_done" string="Mark As Done" class="oe_highlight"
                             data-hotkey="v"
                             type="object" states="in_consultation"/>
+                    <!--this is an example of how to call a wizard with a button with xml -->
+                    <!-- <button name="%(om_hospital.action_cancel_appointment)d" string="Cancel" type="action" states="draft,in_consultation"-->
+                    <!-- data-hotkey="c"/>-->
+                    <!--this is an example of how to call a wizard with a button with python code -->
                     <button name="action_cancel" string="Cancel" type="object" states="draft,in_consultation"
                             data-hotkey="c"/>
                     <button name="action_draft" string="Reset To Draft" class="oe_highlight"

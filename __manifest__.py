@@ -1,8 +1,9 @@
 # for the data the wizard view need to be below the security
+# for the data view need to be below the security and above the wizard
 {
     'name': 'Hospital Management',
     'version': '1.0.0',
-    'category':'Hospital',
+    'category': 'Hospital',
     'author': 'Pablo',
     'sequence': -100,
     'summary': 'Hospital management system',
@@ -10,6 +11,8 @@
     'depends': ['mail', 'product'],
     'data': [
         'security/ir.model.access.csv',
+        'data/patient_tag_data.xml',
+        'data/patient.tag.csv',
         'wizard/cancel_appointment_view.xml',
         'views/menu.xml',
         'views/patient_view.xml',

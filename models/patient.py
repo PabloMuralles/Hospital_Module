@@ -12,13 +12,14 @@ class HospitalPatient(models.Model):
     # automatically use this
 
     # how to create the field in the database of this table patient
-    name = fields.Char(string='Name', tracking=True) # the tracking it's to show the changes of the filed in the
+    name = fields.Char(string='Name', tracking=True)  # the tracking it's to show the changes of the filed in the
     # chatter section, we need to have activated the chatter
     date_of_birth = fields.Date(string="Date of Birth")
     ref = fields.Char(string='Reference')
-    age = fields.Integer(string='Age', compute="_compute_age", tracking=True) # if we want to store the this
+    age = fields.Integer(string='Age', compute="_compute_age", tracking=True)  # if we want to store the this
     # computed fild store=True
-    gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string='Gender', tracking=True, default='female')
+    gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string='Gender', tracking=True,
+                              default='female')
     active = fields.Boolean(string="Active", default=True)  # this field is to put the option archive or unarchived
     # in odoo view
     image = fields.Image(string="Image")
@@ -27,13 +28,26 @@ class HospitalPatient(models.Model):
     # in this case create a table named hospital_patient_patient_tag_rel
     tag_ids = fields.Many2many(comodel_name="patient.tag", string="Tags")
 
-    #how to define a function in a model
-    #this funtion it's for a computed fild, a computed fild will not stored in the databese
+    # how to define a function in a model
+    # this funtion it's for a computed fild, a computed fild will not store in the database
     # this field will be calculated all the times so this means that will take server resources
-    @api.depends('date_of_birth') # this decorator it's to compute the fild when we change or set the date of birth in the form view becuase if we don't put this the funtion will compute when we sabe the patient, we can have multiple depends filds and we have to follow this syntax @api.depends('date_of_birth', 'name')
+    @api.depends('date_of_birth')  # this decorator it's to compute the fild when we change or set the date of birth
+    # in the form view because if we don't put this the function will compute when we save the patient, we can have
+    # multiple depends on fields, and we have to follow this syntax @api.depends('date_of_birth', 'name')
     def _compute_age(self):
         for record in self:
             if record.date_of_birth:
                 record.age = date.today().year - record.date_of_birth.year
             else:
-                record.age = 0 # what happen if a put a string message here?
+                # whom_odoo_inheritance at happen if a put a string message here?
+                record.age = 0
+
+    # in de video use only vals but only work with vals_list, in this come all the field of the model
+    # so we can access and make changes if it's necessary
+    @api.model
+    def create(self, vals_list):
+        print("Hola---", vals_list)
+        vals_list['ref'] = 'OMTEST'
+        return super(HospitalPatient, self).create(vals_list)
+
+
