@@ -47,7 +47,15 @@ class HospitalPatient(models.Model):
     @api.model
     def create(self, vals_list):
         # the code of the sequence it's to identify the sequence of the model and bring the information
-        vals_list['ref'] =  self.env['ir.sequence'].next_by_code('hospital.patient')
+        vals_list['ref'] = self.env['ir.sequence'].next_by_code('hospital.patient')
         return super(HospitalPatient, self).create(vals_list)
+
+    # this function override the write function, the write function works when we create a new record, and then
+    # we edit this record
+    def write(self, vals):
+        if not self.ref and not vals.get('ref'):
+            vals['ref'] = self.env['ir.sequence'].next_by_code('hospital.patient')
+        return super(HospitalPatient, self).write(vals)
+
 
 
