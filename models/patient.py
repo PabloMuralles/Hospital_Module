@@ -29,7 +29,7 @@ class HospitalPatient(models.Model):
     tag_ids = fields.Many2many(comodel_name="patient.tag", string="Tags")
 
     # how to define a function in a model
-    # this funtion it's for a computed fild, a computed fild will not store in the database
+    # this function it's for a computed fild, a computed fild will not store in the database
     # this field will be calculated all the times so this means that will take server resources
     @api.depends('date_of_birth')  # this decorator it's to compute the fild when we change or set the date of birth
     # in the form view because if we don't put this the function will compute when we save the patient, we can have
@@ -56,6 +56,22 @@ class HospitalPatient(models.Model):
         if not self.ref and not vals.get('ref'):
             vals['ref'] = self.env['ir.sequence'].next_by_code('hospital.patient')
         return super(HospitalPatient, self).write(vals)
+
+    # the original name_get function return the rec name of the model or the textual definition
+    # will return a textual representation for the record in self. We don't use super in this because we are going
+    # to re define the function for our module so the original will not execute
+    def name_get(self):
+        patient_list = []
+        for record in self:
+            name = str(record.ref) + ' ' + str(record.name)
+            patient_list.append((record.id, name))
+            # we can simplify the 4 line of code like this
+            # return  [ (record.id, "[%s]%s" %(record.ref, record.name)) for record in self]
+        return patient_list
+
+
+
+
 
 
 
