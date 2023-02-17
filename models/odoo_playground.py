@@ -1,4 +1,5 @@
 from odoo import api, fields, models
+from odoo.tools.convert import safe_eval
 
 
 class OdooPlayGround(models.Model):
@@ -14,7 +15,7 @@ class OdooPlayGround(models.Model):
     #   -self.env.is_superuser: Return whether the environment is in superuser mode.
     #   -self.env.company: Return the current company (as a instance)
     #   -self.env.companies: Return a recordset of the enable companies by the user
-    #   -self.env.lang: Retunr the current language code \n\n\n"""
+    #   -self.env.lang: Return the current language code \n\n\n"""
 
     model_id = fields.Many2one('ir.model', string="Model")
     code = fields.Text(string="Code", default=DEFAULT_ENV_VARIABLES)
@@ -26,5 +27,6 @@ class OdooPlayGround(models.Model):
                 model = self.env[self.model_id.model]
             else:
                 model = self
+            self.result = safe_eval(self.code.strip(), {'self': model})
         except Exception as e:
             self.result = str(e)

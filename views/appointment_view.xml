@@ -90,6 +90,9 @@
                     <!-- the h1 it is to make bigger the start in the view -->
                     <div class="oe_title">
                         <h1>
+                            <field name="name"/>
+                        </h1>
+                        <h1>
                             <field name="priority" widget="priority" class="mr-3"/>
                         </h1>
                     </div>

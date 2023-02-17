@@ -38,6 +38,7 @@ class HospitalAppointment(models.Model):
     # in this field I can't put comodel_name only this way
     pharmacy_line_ids = fields.One2many('appointment.pharmacy.lines', 'appointment_id', string='Pharmacy Line')
     hide_sales_price = fields.Boolean(string="Hide Sales Price")
+    name = fields.Char(string="Name", readonly=True, default='New')
 
     # define an onchange function, this will help when we select the patient automatically set the references that have
     # the patient
@@ -74,3 +75,8 @@ class HospitalAppointment(models.Model):
     def action_draft(self):
         for record in self:
             record.state = 'draft'
+
+    @api.model
+    def create(self, vals_list):
+        vals_list['name'] = self.env['ir.sequence'].next_by_code('hospital.appointment')
+        return super(HospitalAppointment, self).create(vals_list)
