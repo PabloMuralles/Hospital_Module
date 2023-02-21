@@ -5,7 +5,7 @@ class HospitalAppointment(models.Model):
     _name = "hospital.appointment"
     _inherit = "mail.thread", 'mail.activity.mixin'
     _description = "Hospital Appointment"
-    _rec_name = "ref"  # this if to show the name in the appointment/record because if we don't use this the
+    _rec_name = "name"  # this if to show the name in the appointment/record because if we don't use this the
     # module put appointment/hospital.appointment,1 for example
     # this rec name will be display when we use the active_id in the same way the rec_name will be display in the
     # many2one fields

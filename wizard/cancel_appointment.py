@@ -21,7 +21,11 @@ class CancelAppointmentWizard(models.TransientModel):
             res['appointment_id'] = self.env.context.get('active_id')
         return res
 
-    appointment_id = fields.Many2one(comodel_name='hospital.appointment', string="Appointment")
+    # the domain help us to filter the record based in some condition, to have more than one we have to put like this
+    # domain=[(''), ('')] to put false in the condition you have tu put False and if we don't put anything
+    # will be an and operation and if we want a or operation will be like this domain=['|', (''), ('')]
+    appointment_id = fields.Many2one(comodel_name='hospital.appointment', string="Appointment"
+                                     , domain=[('state', '=', 'draft')])
     reason = fields.Text(string="Reason")
     date_cancel = fields.Date(string="Cancel Date")
 
