@@ -8,7 +8,8 @@
             <form>
                 <group>
                     <group>
-                        <field name="appointment_id"/>
+                        <!-- how to don't show some fields based in the context-->
+                        <field name="appointment_id" invisible="context.get('hide_appointment')"/>
                         <field name="reason"/>
                     </group>
                     <group>

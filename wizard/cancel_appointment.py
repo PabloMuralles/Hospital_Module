@@ -1,6 +1,7 @@
 import datetime
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 
 
 # transient model, this model is only for logic because don't save anything in the database and are used it for
@@ -16,14 +17,8 @@ class CancelAppointmentWizard(models.TransientModel):
         res = super(CancelAppointmentWizard, self).default_get(fields)
         res['date_cancel'] = datetime.date.today()
         # how to pass data between views
-        print("---------------------", self.env.context)
-        print("---------------------", self.env.context.get('active_id'))
         if self.env.context.get("active_id"):
-            # with this I obtain the value of the function get_name and in the video only the ref
-            # so it´s important to search with and how to solve to put only the ref
-            test1 = self.env.context.get('active_id')
-            res['appointment_id'] = test1
-            # res['appointment_id'] = self.env['hospital.appointment'].browse(self.env.context.get('name'))
+            res['appointment_id'] = self.env.context.get('active_id')
         return res
 
     appointment_id = fields.Many2one(comodel_name='hospital.appointment', string="Appointment")
@@ -31,4 +26,6 @@ class CancelAppointmentWizard(models.TransientModel):
     date_cancel = fields.Date(string="Cancel Date")
 
     def action_cancel(self):
+        if self.appointment_id.booking_date == fields.Date.today():
+            raise ValidationError(_("Sorry, cancellation is not Allow on the same day of booking"))
         return

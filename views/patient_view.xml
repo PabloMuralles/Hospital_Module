@@ -36,7 +36,7 @@
                         </group>
                         <group>
                             <field name="ref"/>
-                            <field name="gender"/>
+                            <field name="gender" invisible="context.get('hide_gender')"/>
                             <!-- this widget it's for look better to the end user-->
                             <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                             <field name="active" invisible="1"/>

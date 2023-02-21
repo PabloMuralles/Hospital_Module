@@ -74,9 +74,10 @@
                             type="object" states="in_consultation"/>
                     <!--this is an example of how to call a wizard with a button with xml -->
                     <!-- how to pass data between views with the context-->
+                    <!-- with the context we can pass markers and this makers can be anything that we want-->
                     <button name="%(om_hospital.action_cancel_appointment)d" string="Cancel" type="action"
                             states="draft,in_consultation"
-                            context="{'default_reason': 'Test'}"
+                            context="{'default_reason': 'Test', 'hide_appointment':1}"
                             data-hotkey="c"/>
                     <!--this is an example of how to call a wizard with a button with python code -->
                     <!-- <button name="action_cancel" string="Cancel" type="object" states="draft,in_consultation"-->
