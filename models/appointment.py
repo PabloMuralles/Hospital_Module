@@ -5,9 +5,12 @@ class HospitalAppointment(models.Model):
     _name = "hospital.appointment"
     _inherit = "mail.thread", 'mail.activity.mixin'
     _description = "Hospital Appointment"
-    _rec_name = "patient_id"  # this if to show the name in the appointment/record because if we don't use this the
+    _rec_name = "ref"  # this if to show the name in the appointment/record because if we don't use this the
     # module put appointment/hospital.appointment,1 for example
+    # this rec name will be display when we use the active_id in the same way the rec_name will be display in the
+    # many2one fields
 
+    name = fields.Char(string="Name", required=True, readonly=True, default='New')
     patient_id = fields.Many2one(comodel_name="hospital.patient", string="Patient")  # this field it's to connect
     # other module with this so when we search a patient in the appointment will appear all only to select one
     # the other thing it's that comodel_name it's to specify the model that make the references
@@ -38,7 +41,6 @@ class HospitalAppointment(models.Model):
     # in this field I can't put comodel_name only this way
     pharmacy_line_ids = fields.One2many('appointment.pharmacy.lines', 'appointment_id', string='Pharmacy Line')
     hide_sales_price = fields.Boolean(string="Hide Sales Price")
-    name = fields.Char(string="Name", readonly=True, default='New')
 
     # define an onchange function, this will help when we select the patient automatically set the references that have
     # the patient
@@ -80,3 +82,4 @@ class HospitalAppointment(models.Model):
     def create(self, vals_list):
         vals_list['name'] = self.env['ir.sequence'].next_by_code('hospital.appointment')
         return super(HospitalAppointment, self).create(vals_list)
+
