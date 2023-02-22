@@ -1,5 +1,6 @@
 from datetime import date
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 
 
 class HospitalPatient(models.Model):
@@ -27,6 +28,14 @@ class HospitalPatient(models.Model):
     # for this field don't save anything in this model this will create a separate table in de database
     # in this case create a table named hospital_patient_patient_tag_rel
     tag_ids = fields.Many2many(comodel_name="patient.tag", string="Tags")
+
+    # how to define a python constrain, to name de function use _check_name of the field
+    # if we have multiple field we can do this @api.constrains('date_of_birth','gender')
+    @api.constrains('date_of_birth')
+    def _check_date_of_birth(self):
+        for record in self:
+            if record.date_of_birth and record.date_of_birth > fields.Date.today():
+                raise ValidationError(_("The entered date is not acceptable!"))
 
     # how to define a function in a model
     # this function it's for a computed fild, a computed fild will not store in the database
@@ -68,10 +77,3 @@ class HospitalPatient(models.Model):
             # we can simplify the 4 line of code like this
             # return  [ (record.id, "[%s]%s" %(record.ref, record.name)) for record in self]
         return patient_list
-
-
-
-
-
-
-

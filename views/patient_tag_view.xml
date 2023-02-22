@@ -21,6 +21,7 @@
                     <group>
                         <group>
                             <field name="name"/>
+                            <field name="sequence"/>
                         </group>
                         <group>
                             <!-- select a color in the view-->
