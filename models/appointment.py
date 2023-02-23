@@ -1,4 +1,5 @@
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 
 
 class HospitalAppointment(models.Model):
@@ -42,6 +43,18 @@ class HospitalAppointment(models.Model):
     pharmacy_line_ids = fields.One2many('appointment.pharmacy.lines', 'appointment_id', string='Pharmacy Line')
     hide_sales_price = fields.Boolean(string="Hide Sales Price")
 
+    @api.model
+    def create(self, vals_list):
+        vals_list['name'] = self.env['ir.sequence'].next_by_code('hospital.appointment')
+        return super(HospitalAppointment, self).create(vals_list)
+
+    # this will execute when we delete some record, this is necessary when we don't want to delete some record
+    # because are in some state that if we delete affect the logic business
+    def unlink(self):
+        if self.state == "done":
+            raise ValidationError(_("You can not delete appointment with Done Status"))
+        return super(HospitalAppointment, self).unlink()
+
     # define an onchange function, this will help when we select the patient automatically set the references that have
     # the patient
     @api.onchange('patient_id')
@@ -78,8 +91,5 @@ class HospitalAppointment(models.Model):
         for record in self:
             record.state = 'draft'
 
-    @api.model
-    def create(self, vals_list):
-        vals_list['name'] = self.env['ir.sequence'].next_by_code('hospital.appointment')
-        return super(HospitalAppointment, self).create(vals_list)
+
 
