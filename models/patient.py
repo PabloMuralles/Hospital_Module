@@ -28,6 +28,19 @@ class HospitalPatient(models.Model):
     # for this field don't save anything in this model this will create a separate table in de database
     # in this case create a table named hospital_patient_patient_tag_rel
     tag_ids = fields.Many2many(comodel_name="patient.tag", string="Tags")
+    # stored computed field
+    appointment_count = fields.Integer(string="Appointment Count", compute='_compute_appointment_count',store=True )
+    # we don't have field in this model to have a depends on recompute the field appointment_count, so
+    # to create a new field one2many with patient_id because one patient can have many appointments
+    # that means that when we create a new appointment this field will change and then tigger to compute function
+    appointment_ids = fields.One2many('hospital.appointment', 'patient_id', string="Appointments")
+
+    # to stored computed field is important to choose the correct field to depends for recompute de field
+    @api.depends('appointment_ids')
+    def _compute_appointment_count(self):
+        for record in self:
+            # this if for search in other module using the orm_method
+            record.appointment_count = self.env['hospital.appointment'].search_count([('patient_id', '=', record.id)])
 
     # how to define a python constrain, to name de function use _check_name of the field
     # if we have multiple field we can do this @api.constrains('date_of_birth','gender')
