@@ -29,15 +29,21 @@
             <form>
                 <sheet>
                     <field name="image" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h4>
+                            <field name="ref" readonly="1"/>
+                        </h4>
+                        <h2>
+                            <field name="name"/>
+                        </h2>
+                    </div>
                     <group>
                         <group>
-                            <field name="name"/>
                             <field name="date_of_birth"/>
                             <field name="age"/>
                             <field name="appointment_count"/>
                         </group>
                         <group>
-                            <field name="ref"/>
                             <field name="gender" invisible="context.get('hide_gender')"/>
                             <!-- this widget it's for look better to the end user-->
                             <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
@@ -53,9 +59,12 @@
                             <!-- this por default it's an "and operation but if we want and an "or" operation-->
                             <!--'invisible': ['|', ('age', '>', 18), ('gender', '=', 'male')] -->
                             <!-- this is polish notations-->
-                            <field name="parent" attrs="{'invisible': [('age', '>', 18)]}"/>
-                            <field name="marital_status"/>
-                            <field name="partner_name"/>
+                            <field name="parent" attrs="{'invisible': [('age', '&lt;', 18)]}"/>
+                            <!-- less than we can put like this too &lt;=-->
+                            <!-- required field bases on a condition-->
+                            <field name="marital_status" attrs="{'invisible': [('age', '&lt;', 18)]}"/>
+                            <field name="partner_name" attrs="{'readonly': [('marital_status', '!=', 'married')],
+                                                                'required': [('marital_status', '=', 'married')]}"/>
                         </group>
                     </group>
                 </sheet>

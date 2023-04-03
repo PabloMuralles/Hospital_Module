@@ -35,7 +35,7 @@ class HospitalPatient(models.Model):
     # that means that when we create a new appointment this field will change and then tigger to compute function
     appointment_ids = fields.One2many('hospital.appointment', 'patient_id', string="Appointments")
     parent = fields.Char(string="Parent")
-    marital_status = fields.Selection([('maried', 'Maried'), ('single', 'Single')], string="Marital Status",
+    marital_status = fields.Selection([('married', 'Married'), ('single', 'Single')], string="Marital Status",
                                       tracking=True)
     partner_name = fields.Char(string="Partner Name")
 
