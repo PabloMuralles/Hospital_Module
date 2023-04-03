@@ -29,7 +29,7 @@ class HospitalPatient(models.Model):
     # in this case create a table named hospital_patient_patient_tag_rel
     tag_ids = fields.Many2many(comodel_name="patient.tag", string="Tags")
     # stored computed field
-    appointment_count = fields.Integer(string="Appointment Count", compute='_compute_appointment_count',store=True )
+    appointment_count = fields.Integer(string="Appointment Count", compute='_compute_appointment_count', store=True)
     # we don't have field in this model to have a depends on recompute the field appointment_count, so
     # to create a new field one2many with patient_id because one patient can have many appointments
     # that means that when we create a new appointment this field will change and then tigger to compute function
