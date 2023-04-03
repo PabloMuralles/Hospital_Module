@@ -11,7 +11,7 @@
                 <field name="ref"/>
                 <field name="age"/>
                 <field name="gender"/>
-                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
             </tree>
         </field>
     </record>
@@ -42,6 +42,20 @@
                             <!-- this widget it's for look better to the end user-->
                             <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                             <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Other Information" name="other_information">
+                            <!-- hide a field based on other field-->
+                            <!-- if we want to hide based on multiple field we can put like this-->
+                            <!--'invisible': [('age', '>', 18), ('gender', '=', 'male')] -->
+                            <!-- this por default it's an "and operation but if we want and an "or" operation-->
+                            <!-- this por default it's an "and operation but if we want and an "or" operation-->
+                            <!--'invisible': ['|', ('age', '>', 18), ('gender', '=', 'male')] -->
+                            <!-- this is polish notations-->
+                            <field name="parent" attrs="{'invisible': [('age', '>', 18)]}"/>
+                            <field name="marital_status"/>
+                            <field name="partner_name"/>
                         </group>
                     </group>
                 </sheet>

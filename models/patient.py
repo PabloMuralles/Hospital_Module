@@ -34,6 +34,10 @@ class HospitalPatient(models.Model):
     # to create a new field one2many with patient_id because one patient can have many appointments
     # that means that when we create a new appointment this field will change and then tigger to compute function
     appointment_ids = fields.One2many('hospital.appointment', 'patient_id', string="Appointments")
+    parent = fields.Char(string="Parent")
+    marital_status = fields.Selection([('maried', 'Maried'), ('single', 'Single')], string="Marital Status",
+                                      tracking=True)
+    partner_name = fields.Char(string="Partner Name")
 
     # to stored computed field is important to choose the correct field to depends for recompute de field
     @api.depends('appointment_ids')
