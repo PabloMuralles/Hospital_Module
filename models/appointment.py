@@ -12,9 +12,14 @@ class HospitalAppointment(models.Model):
     # many2one fields
 
     name = fields.Char(string="Name", required=True, readonly=True, default='New')
-    patient_id = fields.Many2one(comodel_name="hospital.patient", string="Patient")  # this field it's to connect
-    # other module with this so when we search a patient in the appointment will appear all only to select one
-    # the other thing it's that comodel_name it's to specify the model that make the references
+    patient_id = fields.Many2one(comodel_name="hospital.patient", string="Patient", ondelete="restrict")  # this field
+    # it's to connect other module with this so when we search a patient in the appointment will appear all only to
+    # select one the other thing it's that comodel_name it's to specify the model that make the references
+    # ----
+    # the ondelete="restrict" help if we want to delete a patient that have a appointment this will block to delete
+    # because if we don't do this the appointment will not have a patient
+    # the ondelete="cascade" help if we want to delete de patient and all the appointments the patients, if we delete
+    # the patient automatically will delete the appointments that have the patient
     gender = fields.Selection(related="patient_id.gender")  # this is for
     # bring the gender of the patient based on the filed patient_id, so we can access to all the fild of the patient
     # it the "." by default this field will be read only if we want to make changes we have to add readonly=False
