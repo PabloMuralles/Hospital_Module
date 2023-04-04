@@ -34,6 +34,8 @@
                             <field name="ref" readonly="1"/>
                         </h4>
                         <h2>
+                            <!-- the class oe_edit_only is usefully when we want so show something only when we edit the record-->
+                            <label for="name" string="Name" class="oe_edit_only"/>
                             <field name="name"/>
                         </h2>
                     </div>

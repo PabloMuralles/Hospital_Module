@@ -31,6 +31,11 @@
             <tree decoration-success="state == 'done'" decoration-danger="state == 'cancel'"
                   decoration-info="state == 'draft'" decoration-warning="state == 'in_consultation'" sample="1"
                   multi_edit="1">
+                <header>
+                    <!-- the hotkey don't function in tree view the same happen with states-->
+                    <!-- in this we can not hide the button based on a condition, so we have to modify the function of the button-->
+                    <button name="action_in_consultation" string="In Consultation" type="object"/>
+                </header>
                 <field name="patient_id"/>
                 <field name="ref" optional="hide"/>
                 <!-- widget="many2one_avatar" is only for the image of the user and widget="many2one_avatar_user"-->
@@ -40,7 +45,7 @@
                 <field name="appointment_time"/>
                 <field name="booking_date" optional="show"/>
                 <field name="activity_ids" widget="list_activity"/>
-                <!-- tu put two or more state in the same decoration you have tu put it like this-->
+                <!-- to put two or more state in the same decoration you have tu put it like this-->
                 <!-- decoration-info="state in ('draft', 'in_consultation')" -->
                 <!-- decoration-success -> green -->
                 <!-- decoration-info -> blue -->
@@ -52,6 +57,14 @@
                        decoration-danger="state == 'cancel'"
                        decoration-warning="state == 'in_consultation'"
                        widget="badge"/>
+                <!-- https://www.fontawesomecheatsheet.com for more classes for buttons-->
+                <button name="action_done" type="object" class="fa fa-check btn-success"
+                        attrs="{'invisible': [('state', '!=', 'in_consultation')]}"/>
+                <!-- example of how to put multiple conditions to make the button invisible -->
+                <!-- we can add buttons in onw2many fields but the buttons only can se when we save the record-->
+                <button name="%(om_hospital.action_cancel_appointment)d" type="action" class="fa fa-times btn-danger"
+                            attrs="{'invisible': [('state', 'not in', ('draft', 'in_consultation'))]}"
+                            context="{'default_reason': 'Test', 'hide_appointment':1}"/>
             </tree>
         </field>
     </record>
