@@ -43,13 +43,13 @@
                         <group>
                             <field name="date_of_birth"/>
                             <field name="age"/>
-                            <field name="appointment_count"/>
                         </group>
                         <group>
                             <field name="gender" invisible="context.get('hide_gender')"/>
                             <!-- this widget it's for look better to the end user-->
                             <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                             <field name="active" invisible="1"/>
+                            <field name="appointment_count"/>
                         </group>
                     </group>
                     <group>

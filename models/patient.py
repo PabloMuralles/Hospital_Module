@@ -68,6 +68,14 @@ class HospitalPatient(models.Model):
                 # whom_odoo_inheritance at happen if a put a string message here?
                 record.age = 0
 
+    # this decorator will trigger on a deleting a record and prevent to delete a patient when have appointments
+    # the at_unistall=False it's to don't execute when we are uninstalling the module
+    @api.ondelete(at_uninstall=False)
+    def _check_appointments(self):
+        for record in self:
+            if record.appointment_ids:
+                raise ValidationError(_("You can not delete a patient with appointments!"))
+
     # in de video use only vals but only work with vals_list, in this come all the field of the model
     # so we can access and make changes if it's necessary
     @api.model
