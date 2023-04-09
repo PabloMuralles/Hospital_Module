@@ -102,3 +102,8 @@ class HospitalPatient(models.Model):
             # we can simplify the 4 line of code like this
             # return  [ (record.id, "[%s]%s" %(record.ref, record.name)) for record in self]
         return patient_list
+
+    def action_test(self):
+        print("Clicked")
+        return
+

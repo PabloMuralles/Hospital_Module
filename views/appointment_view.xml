@@ -63,8 +63,19 @@
                 <!-- example of how to put multiple conditions to make the button invisible -->
                 <!-- we can add buttons in onw2many fields but the buttons only can se when we save the record-->
                 <button name="%(om_hospital.action_cancel_appointment)d" type="action" class="fa fa-times btn-danger"
-                            attrs="{'invisible': [('state', 'not in', ('draft', 'in_consultation'))]}"
-                            context="{'default_reason': 'Test', 'hide_appointment':1}"/>
+                        attrs="{'invisible': [('state', 'not in', ('draft', 'in_consultation'))]}"
+                        context="{'default_reason': 'Test', 'hide_appointment':1}"/>
+                <!-- the name is for the field that will show the buttons only and the fill need to be many2one -->
+                <!-- because it's a many2one and define a type object we have to define the function in the comodel-->
+                <!-- in this case will be the patient model-->
+                <!-- in the video says that we can apply attrs to hide, but they don't explain to much-->
+                <groupby name="patient_id">
+                    <button name="action_test" string="Click Me" type="object" class="oe_highlight"/>
+                    <!-- the video says that only can use inside the group by but i am not sure -->
+                    <!-- when you specify the type edit in the group by automatically will open the primary record-->
+                    <!--in this case the patient to edit the information-->
+                    <button name="edit" string="Edit" type="edit"/>
+                </groupby>
             </tree>
         </field>
     </record>
