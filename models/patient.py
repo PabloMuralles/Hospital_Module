@@ -1,6 +1,7 @@
 from datetime import date
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
+from dateutil import relativedelta
 
 
 class HospitalPatient(models.Model):
@@ -17,8 +18,10 @@ class HospitalPatient(models.Model):
     # chatter section, we need to have activated the chatter
     date_of_birth = fields.Date(string="Date of Birth")
     ref = fields.Char(string='Reference')
-    age = fields.Integer(string='Age', compute="_compute_age", tracking=True)  # if we want to store the this
-    # computed fild store=True
+    # the inverse function for computed field for example in this case the if we put the age automatically will put
+    # the date of bird but only the year
+    age = fields.Integer(string='Age', compute="_compute_age", inverse='_inverse_compute_age', tracking=True)
+    # if we want to store the computed fild store=True, the inverse it's to the inverse function
     gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string='Gender', tracking=True,
                               default='female')
     active = fields.Boolean(string="Active", default=True)  # this field is to put the option archive or unarchived
@@ -67,6 +70,14 @@ class HospitalPatient(models.Model):
             else:
                 # whom_odoo_inheritance at happen if a put a string message here?
                 record.age = 0
+
+    # in the video have a problem, and they modify to avoid the singleton the function unlink in the model appointment
+    # but I search and was because they only put the year in the first date of to subtract
+    @api.depends('age')
+    def _inverse_compute_age(self):
+        for record in self:
+            self.date_of_birth = date.today() - relativedelta.relativedelta(years=record.age)
+        return
 
     # this decorator will trigger on a deleting a record and prevent to delete a patient when have appointments
     # the at_unistall=False it's to don't execute when we are uninstalling the module
