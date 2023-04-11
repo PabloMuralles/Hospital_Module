@@ -19,8 +19,10 @@ class HospitalPatient(models.Model):
     date_of_birth = fields.Date(string="Date of Birth")
     ref = fields.Char(string='Reference')
     # the inverse function for computed field for example in this case the if we put the age automatically will put
-    # the date of bird but only the year
-    age = fields.Integer(string='Age', compute="_compute_age", inverse='_inverse_compute_age', tracking=True)
+    # the date of bird but only the year.
+    # the search it's to define a search function to the field
+    age = fields.Integer(string='Age', compute="_compute_age", inverse='_inverse_compute_age',
+                         search="_search_age", tracking=True)
     # if we want to store the computed fild store=True, the inverse it's to the inverse function
     gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string='Gender', tracking=True,
                               default='female')
@@ -78,6 +80,15 @@ class HospitalPatient(models.Model):
         for record in self:
             self.date_of_birth = date.today() - relativedelta.relativedelta(years=record.age)
         return
+
+    # search function
+    # the value it's the the thing that the user insert to search in this case the age to search
+    def _search_age(self, operator, value):
+        date_of_birth = date.today() - relativedelta.relativedelta(years=value)
+        # this replaces it's to change the day and month of the date that we have
+        start_of_year = date_of_birth.replace(day=1, month=1)
+        end_of_year = date_of_birth.replace(day=31, month=12)
+        return [('date_of_birth', '>=', start_of_year), ('date_of_birth', '<=', end_of_year)]
 
     # this decorator will trigger on a deleting a record and prevent to delete a patient when have appointments
     # the at_unistall=False it's to don't execute when we are uninstalling the module

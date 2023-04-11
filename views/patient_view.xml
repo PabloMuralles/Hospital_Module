@@ -101,13 +101,16 @@
                 <field name="name" string="Patient Name"
                        filter_domain="['|', ('name', 'ilike', self), ('ref', 'ilike', self)]"/>
                 <field name="ref"/>
+                <!-- age is a computed field and will not store in the databases because of this odoo can't make the search-->
+                <!-- this for the reason that odoo make direct queries in the database, we have to solution make the -->
+                <!-- field stored field and the other define the search function -->
                 <field name="age"/>
                 <field name="gender"/>
                 <filter name="filter_male" string="Male" domain="[('gender', '=', 'male')]"/>
                 <filter name="filter_female" string="Female" domain="[('gender', '=', 'female')]"/>
                 <separator/>
-                <!--                <filter name="filter_kids" string="Kids" domain="[('age', '&lt;=', '5')]"/>-->
-                <!--                <separator/>-->
+                <!--<filter name="filter_kids" string="Kids" domain="[('age', '&lt;=', '5')]"/>-->
+                <!--<separator/>-->
                 <filter name="filter_archive" string="Archived" domain="[('active', '=', False)]"/>
                 <group expand="0" string="Group By">
                     <filter string="Gender" name="group_by_gender" context="{'group_by': 'gender'}"/>
