@@ -14,5 +14,7 @@ Important to check this url http://localhost/web/database/manager
     addons_path = C:\odoo15\odoo\addons,C:\odoo15\odoo\custom_addons
     
 # To update the module when you restart pycharm
+
 You have to add the follow command in the configuration settings on the parameters. This command is used to update form the terminal.
+
     -u om_hospital
