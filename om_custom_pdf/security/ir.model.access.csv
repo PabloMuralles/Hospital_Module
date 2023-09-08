@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_om_custom_pdf_om_custom_pdf,om_custom_pdf.om_custom_pdf,model_om_custom_pdf_om_custom_pdf,base.group_user,1,1,1,1

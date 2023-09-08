@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <template id="external_layout_standard_inherit" inherit_id="web.external_layout_standard">
+            <xpath expr="//div[1]" position="replace">
+            </xpath>
+        </template>
+        <template id="external_layout_bold_inherit" inherit_id="web.external_layout_bold">
+            <xpath expr="//div[1]" position="replace">
+            </xpath>
+        </template>
+        <template id="external_layout_boxed_inherit" inherit_id="web.external_layout_boxed">
+            <xpath expr="//div[1]" position="replace">
+            </xpath>
+        </template>
+        <template id="external_layout_striped_inherit" inherit_id="web.external_layout_striped">
+            <xpath expr="//div[1]" position="replace">
+            </xpath>
+        </template>
+    </data>
+</odoo>
